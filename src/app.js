@@ -7,6 +7,12 @@ import 'dotenv/config';
 import Database from './database/index.js';
 import Routes from './routes/index.js';
 
+import { dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { resolve } from 'path';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+
 class App {
   constructor() {
     this.app = express();
@@ -27,10 +33,11 @@ class App {
 
     await this.database.setup();
 
-    this.app.use(helmet());
+    this.app.use(helmet.crossOriginResourcePolicy({ policy: 'cross-origin' }));
     this.app.use(cors());
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true }));
+    this.app.use(express.static(resolve(__dirname, '..', 'uploads')));
     this.app.use(router);
 
     console.log(`App started at ${process.env.PORT}`); // eslint-disable-line no-console

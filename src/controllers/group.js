@@ -15,6 +15,7 @@ class GroupController extends BaseController {
     try {
       await this.service.create({
         ...req.body,
+        filename: req.file.filename,
         creatorId: req.params.userId
       });
 
@@ -26,7 +27,6 @@ class GroupController extends BaseController {
 
   async findInfo(req, res) {
     try {
-      console.log('oi', req.params.id);
       const group = await this.service.listOne(req.params.id);
 
       this.handleSuccess(res, { group });
@@ -37,7 +37,7 @@ class GroupController extends BaseController {
 
   async findAll(req, res) {
     try {
-      const groups = await this.service.findAll();
+      const groups = await this.service.findAllWithUsers();
 
       this.handleSuccess(res, { groups });
     } catch (error) {

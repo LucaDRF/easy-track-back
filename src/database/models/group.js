@@ -19,6 +19,14 @@ class GroupModel extends BaseModel {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
+      filename: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      creatorNumber: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
       isDeleted: {
         type: DataTypes.BOOLEAN,
         defaultValue: false
@@ -37,7 +45,7 @@ class GroupModel extends BaseModel {
 
   static associate(models) {
     this.hasMany(models.UserGroupModel, { foreignKey: 'groupId' });
-    this.belongsTo(models.GroupModel, { foreignKey: 'creatorId' });
+    this.belongsTo(models.UserModel, { foreignKey: 'creatorId' });
   }
 }
 
